@@ -120,11 +120,11 @@ pub fn step_mtp(
         // (→ truncation). A single draft uses its own up-to-date mask and is
         // sound; drafts.len()==1 routes verify to the K=2 path. Mask is a no-op
         // when grammar is inactive, so NVFP4/non-tool paths keep full K.
-        let effective_num_drafts = if a.grammar_state.is_some() {
-            1
-        } else {
-            num_drafts
-        };
+        // 2026-07-09: hoisted to the `effective_drafts_under_grammar` SSOT,
+        // now also applied at the five verify-path re-propose sites that
+        // previously bypassed this clamp (the "mask held fixed" warn spam).
+        let effective_num_drafts =
+            crate::scheduler::spec_step::effective_drafts_under_grammar(a, num_drafts);
         match model.run_mtp_propose_multi(
             tok,
             a.seq.seq_len,
