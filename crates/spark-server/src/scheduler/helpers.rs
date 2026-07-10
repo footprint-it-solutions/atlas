@@ -770,6 +770,9 @@ mod thinking_loop_tests;
 #[cfg(test)]
 mod inter_tool_prose_tests {
     #[test]
+    // The assertion IS on a constant by design: this test exists to lock
+    // the budget's value class so a future edit below 2048 fails loudly.
+    #[allow(clippy::assertions_on_constants)]
     fn default_prose_budget_is_plan_friendly() {
         // Regression: 384 amputated legitimate plan turns (2026-07-09).
         assert!(
