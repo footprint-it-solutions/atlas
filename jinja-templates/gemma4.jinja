@@ -182,7 +182,6 @@
 
 {#- Loop through messages -#}
 {%- for message in loop_messages -%}
-    {%- set ns.prev_message_type = None -%}
     {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}
     {%- if role != 'tool' -%}
         {{- '<|turn>' + role + '\n' }}
@@ -239,6 +238,7 @@
                 {%- else -%}
                     {{- message['content'] | trim -}}
                 {%- endif -%}
+                {%- set ns.prev_message_type = role -%}
             {%- elif message['content'] is sequence and role != 'tool' -%}
                 {%- for item in message['content'] -%}
                     {%- if item['type'] == 'text' -%}
@@ -258,6 +258,7 @@
                         {%- set ns.prev_message_type = 'video' -%}
                     {%- endif -%}
                 {%- endfor -%}
+                {%- set ns.prev_message_type = role -%}
             {%- endif -%}
 
         {%- if role != 'tool' and not (message['tool_responses'] and not message['content']) -%}
@@ -272,12 +273,6 @@
     {%- if not enable_thinking | default(false) -%}
         {{- '<|channel>thought\n<channel|>' -}}
     {%- endif -%}
-    {#- Tool-steering prefix: when tools are active, prepend the tool_call
-        opening sentinel so the model's first generated token is guaranteed
-        to be inside a tool_call structural-tag trigger. Combined with the
-        `compile_gemma4_tool_grammar` grammar constraint, this forces the
-        model to emit a structured tool call instead of narrative text (the
-        WARN root cause on 26B Search + 31B Weather/Search). -#}
     {%- if tools and ns.prev_message_type != 'tool_response' -%}
         {{- '<|tool_call>call:' -}}
     {%- endif -%}

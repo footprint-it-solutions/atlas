@@ -299,7 +299,7 @@ impl Default for ModelBehavior {
             confidence_early_stop: true,
             confidence_run_length: 30,
             fuzzy_repeat_tolerance_div: 12,
-            max_inter_tool_prose: 384,
+            max_inter_tool_prose: 32768,
             max_post_think_content_tokens: 100_000,
             tscg: false,
             disable_tool_grammar: false,

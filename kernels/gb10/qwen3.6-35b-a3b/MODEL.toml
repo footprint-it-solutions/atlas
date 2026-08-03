@@ -269,7 +269,7 @@ max_thinking_budget = 768
 # (opencode arms tools every turn). Repeating wander is caught by the content-
 # loop + SimHash watchdogs; this bound only limits a non-repeating dormant-
 # opener burn. Raised to fit plans while staying << max_tokens.
-max_inter_tool_prose = 3072
+max_inter_tool_prose = 32768
 # F1 (2026-06-02): unconditional post-`</think>` content-token cap for
 # tool-active requests. Backstops the grammar-legal-but-never-closing
 # tool-value runaway (a garbled/merged BPE `</parameter>` close leaves

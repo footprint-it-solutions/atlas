@@ -114,7 +114,7 @@ impl ComputeTarget for NvidiaTarget {
         if status.success() {
             Ok(())
         } else {
-            Err(format!("nvcc --ptx failed for {}", source.display()))
+            Err(format!("nvcc failed for {}", source.display()))
         }
     }
 }

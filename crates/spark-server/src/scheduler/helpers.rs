@@ -404,12 +404,11 @@ impl WatchdogParams {
 /// in `auto` mode (grammar.rs:461-462) sets `at_least_one=false`
 /// and `stop_after_first=false`, so `is_terminated()` stays false
 /// forever after the first tool call — the model can emit
-/// prose↔tool↔prose↔tool indefinitely. 384 tokens is enough for
-/// three normal "I'll now do X" paragraphs of agentic narrative;
-/// anything beyond is the failure mode (re-narrating the plan
-/// rather than executing it). Counted across non-thinking,
-/// non-tool-body tokens only.
-pub const MAX_INTER_TOOL_PROSE: u32 = 3072;
+/// prose↔tool↔prose↔tool indefinitely. 16384 tokens is enough for
+/// massive agentic narrative/planning; anything beyond is the failure
+/// mode (re-narrating the plan rather than executing it). Counted
+/// across non-thinking, non-tool-body tokens only.
+pub const MAX_INTER_TOOL_PROSE: u32 = 32768;
 
 /// F1 (2026-06-02): unconditional per-generation cap on post-`</think>`
 /// content tokens for tool-active requests (`grammar_state.is_some()`).
